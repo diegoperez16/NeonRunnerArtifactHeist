@@ -30,10 +30,10 @@ ENEMY_DAMAGE = 10
 COIN_SCORE = 10
 
 # Level and spawning
-MAX_ENEMIES      = 5
-ENEMY_SPAWN_RATE = 3.0      # seconds between spawns
-MAX_COINS        = 8
-COIN_SPAWN_RATE  = 2.5      # seconds between spawns
+MAX_ENEMIES      = 8
+ENEMY_SPAWN_RATE = 2.0      # seconds between spawns
+MAX_COINS        = 10
+COIN_SPAWN_RATE  = 1.5      # seconds between spawns
 
 # Collision detection radius in pixels
 COLLISION_RADIUS = 26
