@@ -7,11 +7,24 @@
 - Health depletes on enemy contact
 - Game ends when health reaches zero, score is tallied
 
-## Difficulty
+## Difficulty Curve
 
-- Enemy count caps at MAX_ENEMIES (see constants.py)
-- Spawn rate and speed are tunable per playtesting feedback
-- Current feel: manageable for first 30s, ramps up after that
+Starting gentle, escalating as time passes:
+- 0-30s: slow spawns, 2-3 enemies max
+- 30-60s: faster spawns, up to 5 enemies
+- 60s+: max pressure, full enemy cap active
+
+Linking difficulty to score rather than time is worth considering
+so skilled players get a harder game sooner.
+
+## Sound Design Ideas
+
+- Looping ambient dungeon track (moody, low)
+- Artifact pickup: short satisfying chime
+- Enemy hit: low thud or buzz
+- Game over: brief descending tone
+
+Will integrate once Vivi has the audio module ready.
 
 ## Future Ideas
 
