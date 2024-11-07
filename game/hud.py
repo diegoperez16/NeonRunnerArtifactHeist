@@ -9,7 +9,7 @@ from .constants import (
 class HUD:
     def __init__(self, screen):
         self.screen = screen
-        self.font_large  = pygame.font.SysFont('monospace', 26, bold=True)
+        self.font_large  = pygame.font.SysFont('monospace', 28, bold=True)
         self.font_medium = pygame.font.SysFont('monospace', 20)
         self.font_small  = pygame.font.SysFont('monospace', 14)
 
