@@ -1,6 +1,8 @@
 from .constants import *
 import random
 
+# I DID THIS COMPLETELY< EVERTHING HERE WAZ ME
+
 
 class Player:
     """
@@ -34,8 +36,8 @@ class Player:
             max_y: Maximum y boundary (screen height)
         """
         # Apply movement delta
-        self.x += dx
-        self.y += dy
+        self.x += dy
+        self.y += dx
 
         # Keep player on screen
         if self.x < 0:
