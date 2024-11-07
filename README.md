@@ -28,6 +28,12 @@ on contact with an enemy. The game ends when your health reaches zero.
 | Q / Escape           | Quit                      |
 | R                    | Restart (after game over) |
 
+## Troubleshooting
+
+- **Game window does not open**: make sure pygame is installed (`pip install -r requirements.txt`)
+- **Controls feel wrong**: known issue under investigation
+- **Low frame rate**: close other applications and try again
+
 ## Requirements
 
 - Python 3.8 or newer
