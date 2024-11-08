@@ -23,7 +23,7 @@ PLAYER_SPEED        = 250       # pixels per second
 PLAYER_START_HEALTH = 100
 
 # Enemy settings
-ENEMY_SPEED  = 150      # pixels per second
+ENEMY_SPEED  = 600      # pixels per second
 ENEMY_DAMAGE = 10
 
 # Coin / artifact settings
