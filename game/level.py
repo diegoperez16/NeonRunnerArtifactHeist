@@ -12,10 +12,10 @@ class Level:
         self.enemies = []
         self.coins   = []
 
-        # The player is created at the center of the screen
+        # Player starts at the center of the screen
         self.player = Player(width // 2, height // 2)
 
-        # Spawn timers
+        # Timers track seconds since last spawn
         self.enemy_spawn_timer = 0
         self.coin_spawn_timer  = 0
 
@@ -27,7 +27,7 @@ class Level:
         self._handle_collisions()
 
     def _spawn_manager(self, dt):
-        # Enemies spawn at a random edge of the screen
+        # ---- enemy spawning ----
         self.enemy_spawn_timer += dt
         if len(self.enemies) < MAX_ENEMIES and self.enemy_spawn_timer > ENEMY_SPAWN_RATE:
             self.enemy_spawn_timer = 0
@@ -42,7 +42,7 @@ class Level:
                 x, y = self.width + TILE_SIZE, random.randint(0, self.height)
             self._spawn_enemy(x, y)
 
-        # Coins spawn randomly inside the playable area
+        # ---- coin spawning ----
         self.coin_spawn_timer += dt
         if len(self.coins) < MAX_COINS and self.coin_spawn_timer > COIN_SPAWN_RATE:
             self.coin_spawn_timer = 0
@@ -58,6 +58,7 @@ class Level:
         self.coins.append(Coin(x, y))
 
     def _handle_collisions(self):
+        # Enemy contact damages the player and removes the enemy
         for enemy in self.enemies[:]:
             dx = enemy.x - self.player.x
             dy = enemy.y - self.player.y
@@ -65,6 +66,7 @@ class Level:
                 self.player.take_damage(ENEMY_DAMAGE)
                 self.enemies.remove(enemy)
 
+        # Coin contact awards points and removes the coin
         for coin in self.coins[:]:
             dx = coin.x - self.player.x
             dy = coin.y - self.player.y
