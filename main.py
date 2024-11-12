@@ -75,7 +75,7 @@ class Game:
         for coin in self.level.coins:
             draw_x = int(coin.x) - COIN_SIZE // 2 - self.sprites.coin_offset
             draw_y = int(coin.y) - COIN_SIZE // 2 - self.sprites.coin_offset
-            self.screen.blit(self.sprites.coin, (draw_x, draw_y))
+            pass
 
         # Draw enemies
         for enemy in self.level.enemies:
