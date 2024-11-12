@@ -17,3 +17,15 @@
 - Create a feature branch for larger changes
 - Write clear, descriptive commit messages
 - Test your changes before pushing
+
+## Commit Message Format
+
+Use short imperative messages:
+  add feature X
+  fix bug in Y
+  refactor Z for clarity
+
+## Reporting Issues
+
+If something in the game feels broken or off, note the exact behavior
+and which commit introduced it if possible. Use git log to narrow it down.
