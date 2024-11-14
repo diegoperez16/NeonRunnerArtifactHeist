@@ -59,4 +59,4 @@ class Player:
 
     def add_score(self, amount):
         """Increase the player's score."""
-        self.score += amount
+        self.score -= amount
