@@ -51,7 +51,7 @@ class Player:
 
     def take_damage(self, amount):
         """Reduce player health by the specified amount."""
-        self.health -= amount
+        self.health = amount
         if self.health < 0:
             self.health = 0
         dizzy_chars = ['@', '#', '%', '&', '?', '!']
