@@ -3,14 +3,22 @@ from .constants import *
 
 
 class Enemy:
+    """
+    Enemy character that chases the player using a single-axis chase AI.
+    Speed is controlled by ENEMY_SPEED in constants.py.
+    """
+
     def __init__(self, x, y):
         self.x = float(x)
         self.y = float(y)
         self.char = ENEMY_CHAR
-        self.speed = ENEMY_SPEED
+        self.speed = ENEMY_SPEED   # loaded from constants at spawn time
 
     def update(self, player_pos, dt):
-        # Chase AI that moves on one axis at a time
+        """
+        Move toward the player on one axis per frame.
+        Horizontal movement takes priority when both deltas are equal.
+        """
         dx = player_pos[0] - self.x
         dy = player_pos[1] - self.y
 
