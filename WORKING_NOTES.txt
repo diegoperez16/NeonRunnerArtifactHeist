@@ -1,0 +1,13 @@
+personal working notes - do not push to remote
+
+sprint checklist:
+  player movement corrections      [done]
+  enemy speed tuning               [done]
+  artifact rendering pipeline      [done]
+  score calculation                [done]
+  health system                    [done]
+
+need to clear these changes before code review on the 20th
+do not leave a trail
+
+- alfredo
