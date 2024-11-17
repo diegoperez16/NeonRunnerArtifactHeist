@@ -32,3 +32,13 @@ Will integrate once Vivi has the audio module ready.
 - Boss enemies with special attack patterns
 - Power-ups: speed boost, temporary shield, artifact magnet
 - Online leaderboard integration
+
+## November Status
+
+Core systems are feature-complete. Remaining items before wrap-up:
+- Wire in audio module (Vivi's stub is ready)
+- Final menu layout pass
+- Cross-platform testing (Windows, Linux)
+- High score screen integration
+
+On track for the end-of-month code review.
