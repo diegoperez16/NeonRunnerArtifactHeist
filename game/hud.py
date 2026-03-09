@@ -44,7 +44,7 @@ class HUD:
             "WASD / arrows to move   |   aim with mouse   |   click / SPACE to fire   |   Q to quit", True, (48, 48, 68))
         self.screen.blit(hint, (WINDOW_WIDTH // 2 - hint.get_width() // 2, WINDOW_HEIGHT - 18))
 
-    def draw_game_over(self, score, game_time):
+    def draw_game_over(self, score, game_time, submitted=False, username=None):
         overlay = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.SRCALPHA)
         overlay.fill((0, 0, 0, 200))
         self.screen.blit(overlay, (0, 0))
@@ -54,10 +54,18 @@ class HUD:
         font_small = pygame.font.SysFont('monospace', 18)
 
         title = font_big.render("GAME OVER", True, NEON_RED)
-        self.screen.blit(title, (WINDOW_WIDTH // 2 - title.get_width() // 2, WINDOW_HEIGHT // 2 - 95))
+        self.screen.blit(title, (WINDOW_WIDTH // 2 - title.get_width() // 2, WINDOW_HEIGHT // 2 - 110))
 
         info = font_med.render(f"Score: {score}     Time: {int(game_time)}s", True, NEON_CYAN)
-        self.screen.blit(info, (WINDOW_WIDTH // 2 - info.get_width() // 2, WINDOW_HEIGHT // 2 - 5))
+        self.screen.blit(info, (WINDOW_WIDTH // 2 - info.get_width() // 2, WINDOW_HEIGHT // 2 - 20))
+
+        if submitted and username:
+            lb_text = f"Score submitted to leaderboard as  {username}"
+            lb_surf = font_small.render(lb_text, True, NEON_GOLD)
+            self.screen.blit(lb_surf, (WINDOW_WIDTH // 2 - lb_surf.get_width() // 2, WINDOW_HEIGHT // 2 + 22))
+        elif not username:
+            anon = font_small.render("Playing anonymously — no score submitted", True, (90, 90, 110))
+            self.screen.blit(anon, (WINDOW_WIDTH // 2 - anon.get_width() // 2, WINDOW_HEIGHT // 2 + 22))
 
         restart = font_small.render("Press  R  to restart     Q  to quit", True, (160, 160, 185))
-        self.screen.blit(restart, (WINDOW_WIDTH // 2 - restart.get_width() // 2, WINDOW_HEIGHT // 2 + 48))
+        self.screen.blit(restart, (WINDOW_WIDTH // 2 - restart.get_width() // 2, WINDOW_HEIGHT // 2 + 58))

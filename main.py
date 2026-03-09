@@ -10,25 +10,47 @@ from game.constants import (
     PLAYER_SPEED, TILE_SIZE, COIN_SIZE,
     NEON_CYAN, NEON_PURPLE,
 )
+from game.leaderboard import get_username, save_username, submit_score
+
+
+def _prompt_username() -> str | None:
+    """Ask for username in the terminal before the window opens."""
+    saved = get_username()
+    if saved:
+        print(f"Welcome back, {saved}!  (press Enter to keep, or type a new name)")
+        entered = input("Username: ").strip()
+        name = entered if entered else saved
+    else:
+        print("Enter a username to track your score on the leaderboard.")
+        print("(Leave blank to play anonymously)")
+        name = input("Username: ").strip()
+
+    if name:
+        save_username(name)
+        return name
+    return None
 
 
 class Game:
-    def __init__(self):
+    def __init__(self, username: str | None):
         pygame.init()
         pygame.display.set_caption("Neon Runner: Artifact Heist")
         self.screen  = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.clock   = pygame.time.Clock()
         self.sprites = SpriteManager()
 
+        self.username = username
         self.running   = True
         self.game_over = False
         self.game_time = 0.0
+        self._score_submitted = False
 
         self.reset_game()
 
     def reset_game(self):
         self.game_over = False
         self.game_time = 0.0
+        self._score_submitted = False
         self.level = Level(WINDOW_WIDTH, WINDOW_HEIGHT)
         self.hud   = HUD(self.screen)
 
@@ -79,8 +101,12 @@ class Game:
 
         self.level.update(dt)
         self.game_time += dt
+
         if self.level.player.health <= 0:
             self.game_over = True
+            if not self._score_submitted and self.username:
+                self._score_submitted = True
+                submit_score(self.username, self.level.player.score, self.game_time)
 
     def _draw(self):
         self.screen.blit(self.sprites.background, (0, 0))
@@ -139,11 +165,16 @@ class Game:
         self.hud.draw(self.level.player, self.game_time)
 
         if self.game_over:
-            self.hud.draw_game_over(self.level.player.score, self.game_time)
+            self.hud.draw_game_over(
+                self.level.player.score, self.game_time,
+                submitted=(self._score_submitted and self.username is not None),
+                username=self.username,
+            )
 
         pygame.display.flip()
 
 
 if __name__ == '__main__':
-    game = Game()
+    username = _prompt_username()
+    game = Game(username)
     game.run()
