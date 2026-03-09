@@ -38,4 +38,14 @@ COIN_SPAWN_RATE  = 1.5      # seconds between spawns
 # Collision detection radius in pixels
 COLLISION_RADIUS = 26
 
+# Enemy separation — prevents enemies from stacking into one blob
+ENEMY_SEPARATION_RADIUS = 56    # pixels: enemies push apart within this range
+ENEMY_SEPARATION_WEIGHT = 0.45  # how strongly repulsion blends with the chase direction
+
+# Projectile settings
+PROJECTILE_SPEED    = 480   # pixels per second
+PROJECTILE_RADIUS   = 5     # collision radius in pixels
+AMMO_SCORE_INTERVAL = 50    # score points between ammo grants
+AMMO_GRANT          = 3     # projectiles granted per interval
+
 DUMMY_CONSTANT = 'dummy'

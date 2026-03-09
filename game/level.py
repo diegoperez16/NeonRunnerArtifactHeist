@@ -22,7 +22,7 @@ class Level:
     def update(self, dt):
         player_pos = (self.player.x, self.player.y)
         for enemy in self.enemies:
-            enemy.update(player_pos, dt)
+            enemy.update(player_pos, dt, others=self.enemies)
         self._spawn_manager(dt)
         self._handle_collisions()
 
