@@ -7,6 +7,7 @@ from game.sprites import SpriteManager
 from game.constants import (
     WINDOW_WIDTH, WINDOW_HEIGHT, FPS,
     PLAYER_SPEED, TILE_SIZE, COIN_SIZE,
+    NEON_CYAN, NEON_PURPLE,
 )
 
 
@@ -49,6 +50,8 @@ class Game:
                     self.running = False
                 elif event.key == pygame.K_r and self.game_over:
                     self.reset_game()
+                elif event.key == pygame.K_SPACE and not self.game_over:
+                    self.level.fire_projectile()
 
         if not self.game_over:
             keys = pygame.key.get_pressed()
@@ -87,6 +90,17 @@ class Game:
         draw_x = int(self.level.player.x) - TILE_SIZE // 2 - self.sprites.player_offset
         draw_y = int(self.level.player.y) - TILE_SIZE // 2 - self.sprites.player_offset
         self.screen.blit(self.sprites.player, (draw_x, draw_y))
+
+        # Draw projectiles
+        for proj in self.level.projectiles:
+            pygame.draw.circle(
+                self.screen, NEON_CYAN,
+                (int(proj.x), int(proj.y)), proj.radius,
+            )
+            pygame.draw.circle(
+                self.screen, NEON_PURPLE,
+                (int(proj.x), int(proj.y)), proj.radius - 2,
+            )
 
         self.hud.draw(self.level.player, self.game_time)
 

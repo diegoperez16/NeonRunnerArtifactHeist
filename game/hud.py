@@ -2,7 +2,7 @@ import pygame
 from .constants import (
     WINDOW_WIDTH, WINDOW_HEIGHT,
     PLAYER_START_HEALTH,
-    NEON_CYAN, NEON_RED,
+    NEON_CYAN, NEON_RED, NEON_GOLD,
 )
 
 
@@ -37,8 +37,11 @@ class HUD:
         timer_surf = self.font_large.render(f"{int(game_time):03d}s", True, (135, 135, 195))
         self.screen.blit(timer_surf, (WINDOW_WIDTH - timer_surf.get_width() - 16, 10))
 
+        ammo_surf = self.font_medium.render(f"AMMO  {player.ammo}", True, NEON_GOLD)
+        self.screen.blit(ammo_surf, (WINDOW_WIDTH // 2 - ammo_surf.get_width() // 2, 14))
+
         hint = self.font_small.render(
-            "WASD / arrow keys to move   |   Q to quit", True, (48, 48, 68))
+            "WASD / arrows to move   |   SPACE to fire   |   Q to quit", True, (48, 48, 68))
         self.screen.blit(hint, (WINDOW_WIDTH // 2 - hint.get_width() // 2, WINDOW_HEIGHT - 18))
 
     def draw_game_over(self, score, game_time):

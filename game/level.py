@@ -3,14 +3,16 @@ from .constants import *
 from .player import Player
 from .coin import Coin
 from .enemy import Enemy
+from .projectile import Projectile
 
 
 class Level:
     def __init__(self, width, height):
         self.width  = width
         self.height = height
-        self.enemies = []
-        self.coins   = []
+        self.enemies     = []
+        self.coins       = []
+        self.projectiles = []
 
         # Player starts at the center of the screen
         self.player = Player(width // 2, height // 2)
@@ -19,10 +21,21 @@ class Level:
         self.enemy_spawn_timer = 0
         self.coin_spawn_timer  = 0
 
+    def fire_projectile(self):
+        """Fire one projectile in the player's last movement direction."""
+        if self.player.ammo <= 0:
+            return
+        self.player.ammo -= 1
+        dx, dy = self.player.fire_dir
+        self.projectiles.append(Projectile(self.player.x, self.player.y, dx, dy))
+
     def update(self, dt):
         player_pos = (self.player.x, self.player.y)
         for enemy in self.enemies:
             enemy.update(player_pos, dt, others=self.enemies)
+        for proj in self.projectiles:
+            proj.update(dt, self.width, self.height)
+        self.projectiles = [p for p in self.projectiles if p.active]
         self._spawn_manager(dt)
         self._handle_collisions()
 
@@ -65,6 +78,17 @@ class Level:
             if dx * dx + dy * dy < COLLISION_RADIUS * COLLISION_RADIUS:
                 self.player.take_damage(ENEMY_DAMAGE)
                 self.enemies.remove(enemy)
+
+        # Projectile contact destroys the enemy
+        for proj in self.projectiles[:]:
+            for enemy in self.enemies[:]:
+                dx = proj.x - enemy.x
+                dy = proj.y - enemy.y
+                hit_r = PROJECTILE_RADIUS + COLLISION_RADIUS
+                if dx * dx + dy * dy < hit_r * hit_r:
+                    proj.active = False
+                    self.enemies.remove(enemy)
+                    break
 
         # Coin contact awards points and removes the coin
         for coin in self.coins[:]:
