@@ -41,7 +41,7 @@ class HUD:
         self.screen.blit(ammo_surf, (WINDOW_WIDTH // 2 - ammo_surf.get_width() // 2, 14))
 
         hint = self.font_small.render(
-            "WASD / arrows to move   |   SPACE to fire   |   Q to quit", True, (48, 48, 68))
+            "WASD / arrows to move   |   aim with mouse   |   click / SPACE to fire   |   Q to quit", True, (48, 48, 68))
         self.screen.blit(hint, (WINDOW_WIDTH // 2 - hint.get_width() // 2, WINDOW_HEIGHT - 18))
 
     def draw_game_over(self, score, game_time):

@@ -1,5 +1,6 @@
 import pygame
 import sys
+import math
 
 from game.level import Level
 from game.hud import HUD
@@ -52,6 +53,8 @@ class Game:
                     self.reset_game()
                 elif event.key == pygame.K_SPACE and not self.game_over:
                     self.level.fire_projectile()
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not self.game_over:
+                self.level.fire_projectile()
 
         if not self.game_over:
             keys = pygame.key.get_pressed()
@@ -66,6 +69,14 @@ class Game:
                 )
 
     def _update(self, dt):
+        # Aim toward mouse cursor every frame
+        mx, my = pygame.mouse.get_pos()
+        px, py = self.level.player.x, self.level.player.y
+        adx, ady = mx - px, my - py
+        dist = math.hypot(adx, ady)
+        if dist > 0:
+            self.level.player.fire_dir = (adx / dist, ady / dist)
+
         self.level.update(dt)
         self.game_time += dt
         if self.level.player.health <= 0:
@@ -85,6 +96,29 @@ class Game:
             draw_x = int(enemy.x) - TILE_SIZE // 2 - self.sprites.enemy_offset
             draw_y = int(enemy.y) - TILE_SIZE // 2 - self.sprites.enemy_offset
             self.screen.blit(self.sprites.enemy, (draw_x, draw_y))
+
+        # Draw aim line toward mouse cursor
+        if not self.game_over:
+            px, py = int(self.level.player.x), int(self.level.player.y)
+            mx, my = pygame.mouse.get_pos()
+            fdx, fdy = self.level.player.fire_dir
+            has_ammo = self.level.player.ammo > 0
+            dot_color = (*NEON_CYAN, 180) if has_ammo else (40, 90, 90, 100)
+            aim_surf = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.SRCALPHA)
+            line_len = math.hypot(mx - px, my - py)
+            if line_len > 0:
+                step = 14
+                for i in range(step, int(line_len), step):
+                    dot_x = int(px + fdx * i)
+                    dot_y = int(py + fdy * i)
+                    r = 3 if has_ammo else 2
+                    pygame.draw.circle(aim_surf, dot_color, (dot_x, dot_y), r)
+                # Crosshair at mouse position
+                ch_r = 8
+                pygame.draw.circle(aim_surf, dot_color, (mx, my), ch_r, 1)
+                pygame.draw.line(aim_surf, dot_color, (mx - ch_r - 4, my), (mx + ch_r + 4, my), 1)
+                pygame.draw.line(aim_surf, dot_color, (mx, my - ch_r - 4), (mx, my + ch_r + 4), 1)
+            self.screen.blit(aim_surf, (0, 0))
 
         # Draw player
         draw_x = int(self.level.player.x) - TILE_SIZE // 2 - self.sprites.player_offset
